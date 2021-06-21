@@ -1,19 +1,21 @@
+const calculation = (min, max) => min + Math.random() * (max + 1 - min);
+
 const getRandomNumber = (min, max) => {
-  if (min > 0 && max > 0) {
-    const result = min + Math.random() * (max + 1 - min);
-    return Math.floor(result);
+  if (min > 0 && max > 0 && min < max) {
+    const result = calculation(min, max);
+    return Math.round(result);
   }
 
-  return 'Недопустимый диапазон';
+  return false;
 };
 getRandomNumber(1, 10);
 
-const getRandomNumberWithComma = (min, max, quantity) => {
-  if (min > 0 && max > 0) {
-    const result = min + Math.random() * (max + 1 - min);
-    return result.toFixed(quantity);
+const getRandomFloat = (min, max, quantity) => {
+  if (min > 0 && max > 0 && min < max) {
+    const result = calculation(min, max);
+    return Number(result.toFixed(quantity));
   }
 
-  return 'Недопустимый диапазон';
+  return false;
 };
-getRandomNumberWithComma(1.1, 1.2, 3);
+getRandomFloat(1.1, 1.2, 3);
