@@ -9,15 +9,13 @@ const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'],
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
   ],
-  // OFFERS_COUNT = 4,
+  // OFFERS_COUNT = 10,
   PRICE_START = 100,
   PRICE_END = 10000,
   ROOMS_START = 1,
   ROOMS_END = 10,
   GUESTS_START = 1,
   GUESTS_END = 20,
-  AVATAR_LIM_A = 1,
-  AVATAR_LIM_B = 10,
   LAT_START = 35.65000,
   LAT_END = 35.70000,
   LAT_DIGITS = 5,
@@ -27,16 +25,24 @@ const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'],
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0,elements.length - 1)];
 
-const createOffer = () => {
-  const features = new Array(getRandomPositiveInteger(0,FEATURES.length - 1))
-      .fill('')
-      .map(() => getRandomArrayElement(FEATURES)),
-    photos = new Array(getRandomPositiveInteger(1,PHOTOS.length - 1))
-      .fill('')
-      .map((value, index) => PHOTOS[index]);
+const generateFeatures = (array) => {
+  const featuresArray = array.slice(getRandomPositiveInteger(1, array.length - 1));
+  for (let index1 = featuresArray.length - 1; index1 > 0; index1--) {
+    const index2 = Math.floor(Math.random() * (index1 + 1));
+    [featuresArray[index1], featuresArray[index2]] = [featuresArray[index2], featuresArray[index1]];
+  }
+  return featuresArray;
+};
+
+const createOffer = (offerIndex) => {
+  const features = generateFeatures(FEATURES);
+  const photos = new Array(getRandomPositiveInteger(1,PHOTOS.length - 1))
+    .fill('')
+    .map((value, index) => PHOTOS[index]);
+  const avatarNumber = offerIndex < 10 ? `0${offerIndex}` : offerIndex;
   return {
     author: {
-      avatar: `img/avatars/user${getRandomPositiveInteger(AVATAR_LIM_A, AVATAR_LIM_B)}.png`,
+      avatar: `img/avatars/user${avatarNumber}.png`,
     },
     offer: {
       title: 'Heading',
@@ -58,5 +64,5 @@ const createOffer = () => {
   };
 };
 
-// const offers = new Array(OFFERS_COUNT).fill('').map(() => createOffer());
 createOffer();
+// const offers = new Array(OFFERS_COUNT).fill('').map((value, index) => createOffer(index + 1));
