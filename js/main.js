@@ -25,17 +25,17 @@ const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'],
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0,elements.length - 1)];
 
-const generateFeatures = (array) => {
-  const featuresArray = array.slice(getRandomPositiveInteger(1, array.length - 1));
-  for (let index1 = featuresArray.length - 1; index1 > 0; index1--) {
-    const index2 = Math.floor(Math.random() * (index1 + 1));
-    [featuresArray[index1], featuresArray[index2]] = [featuresArray[index2], featuresArray[index1]];
+const shuffleFeatures = (array) => {
+  const featuresData = array.slice(getRandomPositiveInteger(1, array.length - 1));
+  for (let index = featuresData.length - 1; index > 0; index--) {
+    const newIndex = Math.floor(Math.random() * (index + 1));
+    [featuresData[index], featuresData[newIndex]] = [featuresData[newIndex], featuresData[index]];
   }
-  return featuresArray;
+  return featuresData;
 };
 
 const createOffer = (offerIndex) => {
-  const features = generateFeatures(FEATURES);
+  const features = shuffleFeatures(FEATURES);
   const photos = new Array(getRandomPositiveInteger(1,PHOTOS.length - 1))
     .fill('')
     .map((value, index) => PHOTOS[index]);
