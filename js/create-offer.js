@@ -1,11 +1,11 @@
-import {shuffleFeatures} from './utils';
+import {shuffle} from './utils';
 import {TYPES, TIMES, FEATURES, PHOTOS, PRICE_START, PRICE_END, ROOMS_START, ROOMS_END, GUESTS_START, GUESTS_END, LAT_START, LAT_END, LAT_DIGITS, LNG_START, LNG_END, LNG_DIGITS} from './const';
 import {getRandomPositiveInteger} from './utils';
 import {getRandomArrayElement} from './utils';
 import {getRandomPositiveFloat} from './utils';
 
 const createOffer = (offerIndex) => {
-  const features = shuffleFeatures(FEATURES);
+  const features = shuffle(FEATURES);
   const photos = new Array(getRandomPositiveInteger(1,PHOTOS.length))
     .fill('')
     .map((value, index) => PHOTOS[index]);

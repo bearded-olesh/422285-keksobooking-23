@@ -14,13 +14,13 @@ const getRandomPositiveFloat = (limA, limB, digits = 1) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0,elements.length - 1)];
 
-const shuffleFeatures = (data) => {
-  const featuresData = data.slice(getRandomPositiveInteger(1, data.length - 1));
+const shuffle = (data) => {
+  const featuresData = data.slice();
   for (let index = featuresData.length - 1; index > 0; index--) {
     const newIndex = Math.floor(Math.random() * (index + 1));
     [featuresData[index], featuresData[newIndex]] = [featuresData[newIndex], featuresData[index]];
   }
-  return featuresData;
+  return featuresData.slice(getRandomPositiveInteger(1, data.length - 1));
 };
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, shuffleFeatures};
+export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, shuffle};
