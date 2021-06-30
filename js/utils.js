@@ -15,12 +15,12 @@ const getRandomPositiveFloat = (limA, limB, digits = 1) => {
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0,elements.length - 1)];
 
 const shuffle = (data) => {
-  const featuresData = data.slice();
-  for (let index = featuresData.length - 1; index > 0; index--) {
+  const shuffleData = data.slice();
+  for (let index = shuffleData.length - 1; index > 0; index--) {
     const newIndex = Math.floor(Math.random() * (index + 1));
-    [featuresData[index], featuresData[newIndex]] = [featuresData[newIndex], featuresData[index]];
+    [shuffleData[index], shuffleData[newIndex]] = [shuffleData[newIndex], shuffleData[index]];
   }
-  return featuresData.slice(getRandomPositiveInteger(1, data.length - 1));
+  return shuffleData;
 };
 
 export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, shuffle};
