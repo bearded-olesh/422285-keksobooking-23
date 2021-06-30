@@ -1,4 +1,5 @@
-import {createOffer} from './create-offer';
+import {generateElement} from './generate-element.js';
+import {fillOfferTemplate} from './fill-offer-template.js';
 
-createOffer();
-// const offers = new Array(OFFER.OFFERS_COUNT).fill('').map((value, index) => createOffer(index + 1));
+const mapCanvas = document.querySelector('#map-canvas');
+mapCanvas.append(generateElement('#card', 1, fillOfferTemplate));

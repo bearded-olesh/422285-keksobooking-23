@@ -19,3 +19,10 @@ export const LAT_DIGITS = 5;
 export const LNG_START = 139.70000;
 export const LNG_END = 139.80000;
 export const LNG_DIGITS = 5;
+export const TYPE_CAST = {
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+  'house': 'Дом',
+  'palace': 'Дворец',
+  'hotel': 'Отель',
+};
