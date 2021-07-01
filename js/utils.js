@@ -1,3 +1,5 @@
+import {AD_FORM, FILTERS_FORM} from './const.js';
+
 const getRandomPositiveInteger = (limA, limB) => {
   const lower = Math.ceil(Math.min(Math.abs(limA), Math.abs(limB))),
     upper = Math.floor(Math.max(Math.abs(limA), Math.abs(limB))),
@@ -24,36 +26,31 @@ const shuffle = (data) => {
 };
 
 const disablePage = () => {
-  const adForm = document.querySelector('.ad-form');
-  const adFormElements = adForm.children;
-  const filtersForm = document.querySelector('.map__filters');
-  const filtersFormElements = filtersForm.children;
-
-  adForm.classList.add('ad-form--disabled');
+  const adFormElements = AD_FORM.children;
+  const filtersFormElements = FILTERS_FORM.children;
+  AD_FORM.classList.add('ad-form--disabled');
   for (let index = 0; index < adFormElements.length; index++) {
-    adFormElements[index].setAttribute('disable', 'true');
+    adFormElements[index].disabled = true;
   }
 
-  filtersForm.classList.add('map__filters--disabled');
+  FILTERS_FORM.classList.add('map__filters--disabled');
   for (let index = 0; index < filtersFormElements.length; index++) {
-    filtersFormElements[index].setAttribute('disable', 'true');
+    filtersFormElements[index].disabled = true;
   }
 };
 
 const enablePage = () => {
-  const adForm = document.querySelector('.ad-form');
-  const adFormElements = adForm.children;
-  const filtersForm = document.querySelector('.map__filters');
-  const filtersFormElements = filtersForm.children;
+  const adFormElements = AD_FORM.children;
+  const filtersFormElements = FILTERS_FORM.children;
 
-  adForm.classList.remove('ad-form--disabled');
+  AD_FORM.classList.remove('ad-form--disabled');
   for (let index = 0; index < adFormElements.length; index++) {
-    adFormElements[index].removeAttribute('disable');
+    adFormElements[index].removeAttribute('disabled');
   }
 
-  filtersForm.classList.remove('map__filters--disabled');
+  FILTERS_FORM.classList.remove('map__filters--disabled');
   for (let index = 0; index < filtersFormElements.length; index++) {
-    filtersFormElements[index].removeAttribute('disable');
+    filtersFormElements[index].removeAttribute('disabled');
   }
 };
 
