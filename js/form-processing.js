@@ -1,8 +1,8 @@
 import {disablePage, enablePage} from './utils.js';
 
 const formSubmit = () => {
-  enablePage();
   disablePage();
+  enablePage();
 };
 
 export {formSubmit};
