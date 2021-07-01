@@ -24,12 +24,12 @@ const fillOfferTemplate = (template, index) => {
   popupTextTime.textContent = `Заезд после ${data.offer.checkin}, выезд до ${data.offer.checkout}`;
   popupFeatures.innerHTML = '';
   features.forEach((feature) => {
-    popupFeatures.insertAdjacentHTML('beforeend', `<li class="popup__feature popup__feature--${feature}"></li>>`);
+    popupFeatures.insertAdjacentHTML('beforeend', `<li class="popup__feature popup__feature--${feature}"></li>`);
   });
   popupDescription.textContent = data.offer.description;
   popupPhotos.innerHTML = '';
   photos.forEach((photo) => {
-    popupPhotos.insertAdjacentHTML('beforeend', `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья"></img>>`);
+    popupPhotos.insertAdjacentHTML('beforeend', `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья"></img>`);
   });
   popupAvatar.setAttribute('src', data.author.avatar);
 };

@@ -26,3 +26,5 @@ export const TYPE_CAST = {
   'palace': 'Дворец',
   'hotel': 'Отель',
 };
+export const AD_FORM = document.querySelector('.ad-form');
+export const FILTERS_FORM = document.querySelector('.map__filters');
