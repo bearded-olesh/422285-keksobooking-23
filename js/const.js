@@ -6,7 +6,6 @@ export const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
-// const OFFERS_COUNT = 10;
 export const PRICE_START = 100;
 export const PRICE_END = 10000;
 export const ROOMS_START = 1;
@@ -28,3 +27,4 @@ export const TYPE_CAST = {
 };
 export const AD_FORM = document.querySelector('.ad-form');
 export const FILTERS_FORM = document.querySelector('.map__filters');
+export const NO_GUESTS_CAPACITY = 100;
