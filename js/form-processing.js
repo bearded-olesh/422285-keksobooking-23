@@ -55,7 +55,7 @@ const setMinPrice = () => {
   price.setAttribute('placeholder', val);
 };
 
-const formSubmit = () => {
+const formValidity = () => {
   title.addEventListener('input', () => {
     if (title.validity.tooShort) {
       title.setCustomValidity('Заголовок объявления должен состоять минимум из 30 символов');
@@ -94,4 +94,4 @@ const formSubmit = () => {
   calculatingСapacity();
 };
 
-export {formSubmit};
+export {formValidity};
