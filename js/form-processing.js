@@ -1,5 +1,4 @@
 import {disablePage, enablePage} from './utils.js';
-import {NO_GUESTS_CAPACITY} from './const.js';
 
 disablePage();
 enablePage();
@@ -8,27 +7,52 @@ const title = document.querySelector('#title');
 const price = document.querySelector('#price');
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
-const capacitys = capacity.options;
+const type = document.querySelector('#type');
+const capacities = capacity.options;
+const timein = document.querySelector('#timein');
+const timeout = document.querySelector('#timeout');
+const roomsSelector = {
+  1: {
+    statuses: [false, false, true, false],
+    defaultIndex: 2,
+  },
+  2: {
+    statuses: [false, true, true, false],
+    defaultIndex: 1,
+  },
+  3: {
+    statuses: [true, true, true, false],
+    defaultIndex: 0,
+  },
+  100: {
+    statuses: [false, false, false, true],
+    defaultIndex: 3,
+  },
+};
+const typesSelector = {
+  'flat': 1000,
+  'bungalow': 0,
+  'house': 5000,
+  'palace': 10000,
+  'hotel': 3000,
+};
 
 const calculatingСapacity = () => {
   const val = roomNumber.value;
-  if (parseFloat(val) !== NO_GUESTS_CAPACITY) {
-    for (let index = 0; index < capacitys.length; index++) {
-      capacitys[index].style.display = 'none';
-      if (parseFloat(capacitys[index].value) !== 0 && val >= capacitys[index].value) {
-        capacitys[index].style.display = 'block';
-        capacitys[index].selected = 'true';
-      }
+  roomsSelector[val].statuses.forEach((status, index) => {
+    if (status) {
+      capacities[index].style.display = 'block';
+      capacities[roomsSelector[val].defaultIndex].selected = 'true';
+    } else {
+      capacities[index].style.display = 'none';
     }
-  } else {
-    for (let index = 0; index < capacitys.length; index++) {
-      capacitys[index].style.display = 'none';
-      if (parseFloat(capacitys[index].value) === 0) {
-        capacitys[index].style.display = 'block';
-        capacitys[index].selected = 'true';
-      }
-    }
-  }
+  });
+};
+
+const setMinPrice = () => {
+  const val = typesSelector[type.value];
+  price.setAttribute('min', val);
+  price.setAttribute('placeholder', val);
 };
 
 const formSubmit = () => {
@@ -55,7 +79,19 @@ const formSubmit = () => {
   });
 
   roomNumber.addEventListener('change', calculatingСapacity);
+
+  type.addEventListener('change', setMinPrice);
+
+  timein.addEventListener('change', () => {
+    timeout.value = timein.value;
+  });
+
+  timeout.addEventListener('change', () => {
+    timein.value = timeout.value;
+  });
+
+  setMinPrice();
+  calculatingСapacity();
 };
 
-calculatingСapacity();
 export {formSubmit};

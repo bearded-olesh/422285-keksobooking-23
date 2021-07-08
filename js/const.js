@@ -27,4 +27,3 @@ export const TYPE_CAST = {
 };
 export const AD_FORM = document.querySelector('.ad-form');
 export const FILTERS_FORM = document.querySelector('.map__filters');
-export const NO_GUESTS_CAPACITY = 100;
