@@ -1,4 +1,5 @@
 import {disablePage, enablePage} from './utils.js';
+import {DISPLAY} from './const.js';
 
 disablePage();
 enablePage();
@@ -9,8 +10,8 @@ const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 const type = document.querySelector('#type');
 const capacities = capacity.options;
-const timein = document.querySelector('#timein');
-const timeout = document.querySelector('#timeout');
+const checkIn = document.querySelector('#timein');
+const checkOut = document.querySelector('#timeout');
 const roomsSelector = {
   1: {
     statuses: [false, false, true, false],
@@ -37,14 +38,14 @@ const typesSelector = {
   'hotel': 3000,
 };
 
-const calculatingСapacity = () => {
+const calculateCapacity = () => {
   const val = roomNumber.value;
   roomsSelector[val].statuses.forEach((status, index) => {
     if (status) {
-      capacities[index].style.display = 'block';
-      capacities[roomsSelector[val].defaultIndex].selected = 'true';
+      capacities[index].style.display = DISPLAY.BLOCK;
+      capacity.selectedIndex = roomsSelector[val].defaultIndex;
     } else {
-      capacities[index].style.display = 'none';
+      capacities[index].style.display = DISPLAY.NONE;
     }
   });
 };
@@ -78,20 +79,20 @@ const formValidity = () => {
     price.reportValidity();
   });
 
-  roomNumber.addEventListener('change', calculatingСapacity);
+  roomNumber.addEventListener('change', calculateCapacity);
 
   type.addEventListener('change', setMinPrice);
 
-  timein.addEventListener('change', () => {
-    timeout.value = timein.value;
+  checkIn.addEventListener('change', () => {
+    checkOut.value = checkIn.value;
   });
 
-  timeout.addEventListener('change', () => {
-    timein.value = timeout.value;
+  checkOut.addEventListener('change', () => {
+    checkIn.value = checkOut.value;
   });
 
   setMinPrice();
-  calculatingСapacity();
+  calculateCapacity();
 };
 
 export {formValidity};
