@@ -1,8 +1,4 @@
-import {disablePage, enablePage} from './utils.js';
 import {DISPLAY} from './const.js';
-
-disablePage();
-enablePage();
 
 const title = document.querySelector('#title');
 const price = document.querySelector('#price');

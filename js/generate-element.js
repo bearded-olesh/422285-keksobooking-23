@@ -1,17 +1,10 @@
-const generateElement = (templateSelector, quantity, elementUpdate) => {
-  const template = document.querySelector(templateSelector).content;
-  const fragment = document.createDocumentFragment();
-
-  for (let index = 1; index <= quantity; index++) {
-    const element = template.cloneNode(true);
-    if (elementUpdate) {
-      elementUpdate(element, index);
-    }
-
-    fragment.appendChild(element);
+const generateElement = (templateSelector, elementUpdate, data) => {
+  const template = document.querySelector(templateSelector).content.children[0];
+  const element = template.cloneNode(true);
+  if (elementUpdate) {
+    elementUpdate(element, data);
   }
-
-  return fragment;
+  return element;
 };
 
 export {generateElement};
