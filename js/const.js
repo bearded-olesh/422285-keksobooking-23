@@ -27,3 +27,7 @@ export const TYPE_CAST = {
 };
 export const AD_FORM = document.querySelector('.ad-form');
 export const FILTERS_FORM = document.querySelector('.map__filters');
+export const DISPLAY = Object.freeze({
+  BLOCK: 'block',
+  NONE: 'none',
+});

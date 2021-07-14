@@ -9,7 +9,7 @@ const createOffer = (offerIndex) => {
   const photos = new Array(getRandomPositiveInteger(1,PHOTOS.length))
     .fill('')
     .map((value, index) => PHOTOS[index]);
-  const avatarNumber = offerIndex < 10 ? `0${offerIndex}` : offerIndex;
+  const avatarNumber = offerIndex < 10 ? `0${offerIndex + 1}` : offerIndex + 1;
   const locationLat = getRandomPositiveFloat(LAT_START, LAT_END, LAT_DIGITS);
   const locationLng = getRandomPositiveFloat(LNG_START, LNG_END, LNG_DIGITS);
   return {
