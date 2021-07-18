@@ -1,4 +1,5 @@
 import {AD_FORM, FILTERS_FORM} from './const.js';
+import {generateElement} from './generate-element.js';
 
 const getRandomPositiveInteger = (limA, limB) => {
   const lower = Math.ceil(Math.min(Math.abs(limA), Math.abs(limB))),
@@ -54,4 +55,24 @@ const enablePage = () => {
   }
 };
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, shuffle, disablePage, enablePage};
+const openMessage = (templateSelector) => {
+  const template = generateElement(templateSelector);
+  const promise = new Promise(((resolve) => {
+    document.body.append(template);
+    resolve();
+  }));
+  promise.then(() => {
+    const btn = template.querySelector('.error__button');
+    try {
+      btn.addEventListener('click', () => {
+        template.remove();
+      });
+    } catch (error) {
+      setTimeout(() => {
+        template.remove();
+      }, 3000);
+    }
+  });
+};
+
+export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, shuffle, disablePage, enablePage, openMessage};
