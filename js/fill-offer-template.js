@@ -21,14 +21,18 @@ const fillOfferTemplate = (template, offerData) => {
   popupTextCapacity.textContent = `${offerData.offer.rooms} комнаты для ${offerData.offer.guests} гостей`;
   popupTextTime.textContent = `Заезд после ${offerData.offer.checkin}, выезд до ${offerData.offer.checkout}`;
   popupFeatures.innerHTML = '';
-  features.forEach((feature) => {
-    popupFeatures.insertAdjacentHTML('beforeend', `<li class="popup__feature popup__feature--${feature}"></li>`);
-  });
+  if (features) {
+    features.forEach((feature) => {
+      popupFeatures.insertAdjacentHTML('beforeend', `<li class="popup__feature popup__feature--${feature}"></li>`);
+    });
+  }
   popupDescription.textContent = offerData.offer.description;
   popupPhotos.innerHTML = '';
-  photos.forEach((photo) => {
-    popupPhotos.insertAdjacentHTML('beforeend', `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья"></img>`);
-  });
+  if (photos) {
+    photos.forEach((photo) => {
+      popupPhotos.insertAdjacentHTML('beforeend', `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья"></img>`);
+    });
+  }
   popupAvatar.setAttribute('src', offerData.author.avatar);
 };
 
