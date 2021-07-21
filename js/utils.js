@@ -40,15 +40,16 @@ const disablePage = () => {
   }
 };
 
-const enablePage = () => {
+const enableAdForm = () => {
   const adFormElements = AD_FORM.children;
-  const filtersFormElements = FILTERS_FORM.children;
-
   AD_FORM.classList.remove('ad-form--disabled');
   for (let index = 0; index < adFormElements.length; index++) {
     adFormElements[index].removeAttribute('disabled');
   }
+};
 
+const enablefiltersForm = () => {
+  const filtersFormElements = FILTERS_FORM.children;
   FILTERS_FORM.classList.remove('map__filters--disabled');
   for (let index = 0; index < filtersFormElements.length; index++) {
     filtersFormElements[index].removeAttribute('disabled');
@@ -57,22 +58,33 @@ const enablePage = () => {
 
 const openMessage = (templateSelector) => {
   const template = generateElement(templateSelector);
-  const promise = new Promise(((resolve) => {
-    document.body.append(template);
-    resolve();
-  }));
-  promise.then(() => {
-    const btn = template.querySelector('.error__button');
-    try {
-      btn.addEventListener('click', () => {
-        template.remove();
-      });
-    } catch (error) {
-      setTimeout(() => {
-        template.remove();
-      }, 3000);
+  document.body.append(template);
+  const btn = template.querySelector('.error__button');
+  const onKeyDown = ({target}) => {
+    if (target.code === 'Escape') {
+      onCloseMessage;
     }
-  });
+  };
+  const onCloseMessage = () => {
+    template.remove();
+    document.removeEventListener('keydown', onKeyDown);
+  };
+  document.addEventListener('keydown', onKeyDown);
+  if (btn) {
+    btn.addEventListener('click', onCloseMessage);
+  } else {
+    setTimeout(onCloseMessage, 3000);
+  }
 };
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, shuffle, disablePage, enablePage, openMessage};
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return () => {
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => callback.call(null), timeoutDelay);
+  };
+};
+
+export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, shuffle, disablePage, enableAdForm, enablefiltersForm, openMessage, debounce};

@@ -1,12 +1,11 @@
-import {enablePage} from './utils.js';
+import {enableAdForm, enablefiltersForm} from './utils.js';
 import {fillOfferTemplate} from './fill-offer-template.js';
 import {generateElement} from './generate-element.js';
 import {openMessage} from './utils.js';
 import {getData} from './api.js';
+import {START_LAT, START_LNG, START_SCALE, MAX_MARKERS} from './const.js';
+import {filterAds} from './filters-form.js';
 
-const startLat = 35.68867;
-const startLng = 139.75021;
-const startScale = 13;
 const templateSelector = '#card';
 
 const setAdressCoords = (lat, lng) => {
@@ -19,13 +18,13 @@ let mainPinMarker = {};
 const mapInit = () => {
   map = L.map('map-canvas')
     .on('load', () => {
-      enablePage();
-      setAdressCoords(startLat, startLng);
+      enableAdForm();
+      setAdressCoords(START_LAT, START_LNG);
     })
     .setView({
-      lat: startLat,
-      lng: startLng,
-    }, startScale);
+      lat: START_LAT,
+      lng: START_LNG,
+    }, START_SCALE);
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -42,8 +41,8 @@ const mapInit = () => {
 
   mainPinMarker = L.marker(
     {
-      lat: startLat,
-      lng: startLng,
+      lat: START_LAT,
+      lng: START_LNG,
     },
     {
       draggable: true,
@@ -84,22 +83,25 @@ const createMarker = (data) => {
         keepInView: true,
       },
     );
+  enablefiltersForm();
 };
 const showData = () => {
   markerGroup.clearLayers();
   mainPinMarker.setLatLng({
-    lat: startLat,
-    lng: startLng,
+    lat: START_LAT,
+    lng: START_LNG,
   });
-  setAdressCoords(startLat, startLng);
+  setAdressCoords(START_LAT, START_LNG);
   map.setView({
-    lat: startLat,
-    lng: startLng,
-  }, startScale);
+    lat: START_LAT,
+    lng: START_LNG,
+  }, START_SCALE);
   const showMarkers = (data) => {
-    data.slice(0, 10).forEach((offer) => {
-      createMarker(offer);
-    });
+    filterAds(data.slice())
+      .slice(0, MAX_MARKERS)
+      .forEach((offer) => {
+        createMarker(offer);
+      });
   };
   const showError = () => {
     const errorTemplateSelector = '#error-map';

@@ -2,7 +2,12 @@ import {URL_GET, URL_POST} from './const.js';
 
 const getData = (onSuccess, onFail) => {
   fetch(URL_GET)
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(`${response.status} ${response.statusText}`);
+    })
     .then((data) => {
       onSuccess(data);
     })
@@ -21,10 +26,12 @@ const sendData = (onSuccess, onFail, formData) => {
   )
     .then((response) => {
       if (response.ok) {
-        onSuccess();
-      } else {
-        onFail();
+        return response.json();
       }
+      throw new Error(`${response.status} ${response.statusText}`);
+    })
+    .then((data) => {
+      onSuccess(data);
     })
     .catch((error) => {
       // eslint-disable-next-line no-console

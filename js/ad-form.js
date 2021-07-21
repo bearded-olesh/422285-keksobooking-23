@@ -1,4 +1,4 @@
-import {DISPLAY, AD_FORM, SUCCESS_TEMPLATE, ERROR_TEMPLATE} from './const.js';
+import {DISPLAY, AD_FORM, SUCCESS_TEMPLATE, ERROR_TEMPLATE, MIN_PRICE} from './const.js';
 import {openMessage} from './utils.js';
 import {sendData} from './api.js';
 import {showData} from './map.js';
@@ -11,7 +11,7 @@ const type = document.querySelector('#type');
 const capacities = capacity.options;
 const checkIn = document.querySelector('#timein');
 const checkOut = document.querySelector('#timeout');
-const fetures = document.querySelectorAll('.features__checkbox');
+const features = document.querySelectorAll('.features__checkbox');
 const roomsSelector = {
   1: {
     statuses: [false, false, true, false],
@@ -30,13 +30,6 @@ const roomsSelector = {
     defaultIndex: 3,
   },
 };
-const typesSelector = {
-  'flat': 1000,
-  'bungalow': 0,
-  'house': 5000,
-  'palace': 10000,
-  'hotel': 3000,
-};
 
 const calculateCapacity = () => {
   const val = roomNumber.value;
@@ -51,7 +44,7 @@ const calculateCapacity = () => {
 };
 
 const setMinPrice = () => {
-  const val = typesSelector[type.value];
+  const val = MIN_PRICE[type.value];
   price.setAttribute('min', val);
   price.setAttribute('placeholder', val);
 };
@@ -115,8 +108,8 @@ const formSubmit = () => {
     event.preventDefault();
     event.target.reset();
     showData();
-    fetures.forEach((feture) => {
-      feture.checked = false;
+    features.forEach((feature) => {
+      feature.checked = false;
     });
   });
 };
