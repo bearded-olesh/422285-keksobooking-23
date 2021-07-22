@@ -49,6 +49,7 @@ const openMessage = (templateSelector) => {
 
   if (btn) {
     btn.addEventListener('click', onCloseMessage);
+    template.addEventListener('click', onCloseMessage);
   } else {
     setTimeout(onCloseMessage, 3000);
   }

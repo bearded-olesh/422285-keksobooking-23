@@ -14,7 +14,7 @@ export const DISPLAY = Object.freeze({
   NONE: 'none',
 });
 export const URL_GET = 'https://23.javascript.pages.academy/keksobooking/data';
-export const URL_POST = 'https://23.javascript.pages.academy/keksobooking';
+export const URL_POST = 'https://23.javascript.pages.academy/keksobookingыыы';
 export const SUCCESS_TEMPLATE = '#success';
 export const ERROR_TEMPLATE = '#error';
 export const START_LAT = 35.68867;
