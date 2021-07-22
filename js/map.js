@@ -2,8 +2,8 @@ import {enableAdForm, enablefiltersForm} from './utils.js';
 import {fillOfferTemplate} from './fill-offer-template.js';
 import {generateElement} from './generate-element.js';
 import {openMessage} from './utils.js';
-import {getData} from './api.js';
-import {START_LAT, START_LNG, START_SCALE, MAX_MARKERS} from './const.js';
+import {fetchData} from './api.js';
+import {START_LAT, START_LNG, START_SCALE, MAX_MARKERS, URL_GET} from './const.js';
 import {filterAds} from './filters-form.js';
 
 const templateSelector = '#card';
@@ -108,7 +108,7 @@ const showData = () => {
     openMessage(errorTemplateSelector);
   };
 
-  getData(showMarkers, showError);
+  fetchData(showMarkers, showError, URL_GET);
 };
 
 export {mapInit, showData};

@@ -6,13 +6,15 @@ export const TYPE_CAST = {
   'hotel': 'Отель',
 };
 export const AD_FORM = document.querySelector('.ad-form');
+export const AD_FORM_DISABLE = 'ad-form--disabled';
 export const FILTERS_FORM = document.querySelector('.map__filters');
+export const FILTERS_FORM_DISABLE = 'map__filters--disabled';
 export const DISPLAY = Object.freeze({
   BLOCK: 'block',
   NONE: 'none',
 });
 export const URL_GET = 'https://23.javascript.pages.academy/keksobooking/data';
-export const URL_POST = 'https://23.javascript.pages.academy/keksobooking';
+export const URL_POST = 'https://23.javascript.pages.academy/keksobookingsss';
 export const SUCCESS_TEMPLATE = '#success';
 export const ERROR_TEMPLATE = '#error';
 export const START_LAT = 35.68867;

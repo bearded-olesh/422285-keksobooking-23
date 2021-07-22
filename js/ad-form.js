@@ -1,6 +1,6 @@
-import {DISPLAY, AD_FORM, SUCCESS_TEMPLATE, ERROR_TEMPLATE, MIN_PRICE} from './const.js';
+import {DISPLAY, AD_FORM, SUCCESS_TEMPLATE, ERROR_TEMPLATE, MIN_PRICE, URL_POST} from './const.js';
 import {openMessage} from './utils.js';
-import {sendData} from './api.js';
+import {fetchData} from './api.js';
 import {showData} from './map.js';
 
 const title = document.querySelector('#title');
@@ -31,7 +31,7 @@ const roomsSelector = {
   },
 };
 
-const calculateCapacity = () => {
+const onChangeRoomsNumber = () => {
   const val = roomNumber.value;
   roomsSelector[val].statuses.forEach((status, index) => {
     if (status) {
@@ -43,7 +43,7 @@ const calculateCapacity = () => {
   });
 };
 
-const setMinPrice = () => {
+const onChangeMinPrice = () => {
   const val = MIN_PRICE[type.value];
   price.setAttribute('min', val);
   price.setAttribute('placeholder', val);
@@ -53,10 +53,13 @@ const formValidity = () => {
   title.addEventListener('input', () => {
     if (title.validity.tooShort) {
       title.setCustomValidity('Заголовок объявления должен состоять минимум из 30 символов');
+      if (!title.classList.contains('wrong-data')) {title.classList.add('wrong-data');}
     } else if (title.validity.tooLong) {
       title.setCustomValidity('Заголовок объявления не должен превышать 100 символов');
+      if (!title.classList.contains('wrong-data')) {title.classList.add('wrong-data');}
     } else  {
       title.setCustomValidity('');
+      title.classList.remove('wrong-data');
     }
 
     title.reportValidity();
@@ -65,16 +68,20 @@ const formValidity = () => {
   price.addEventListener('input', () => {
     if (price.validity.rangeOverflow) {
       price.setCustomValidity('Цена не должна превышать 1000000');
+      if (!price.classList.contains('wrong-data')) {price.classList.add('wrong-data');}
+    } else if (price.validity.rangeUnderflow) {
+      if (!price.classList.contains('wrong-data')) {price.classList.add('wrong-data');}
     } else  {
       price.setCustomValidity('');
+      price.classList.remove('wrong-data');
     }
 
     price.reportValidity();
   });
 
-  roomNumber.addEventListener('change', calculateCapacity);
+  roomNumber.addEventListener('change', onChangeRoomsNumber);
 
-  type.addEventListener('change', setMinPrice);
+  type.addEventListener('change', onChangeMinPrice);
 
   checkIn.addEventListener('change', () => {
     checkOut.value = checkIn.value;
@@ -84,8 +91,8 @@ const formValidity = () => {
     checkIn.value = checkOut.value;
   });
 
-  setMinPrice();
-  calculateCapacity();
+  onChangeMinPrice();
+  onChangeRoomsNumber();
 };
 
 const formSubmitSucces = () => {
@@ -102,7 +109,11 @@ const formSubmit = () => {
   AD_FORM.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    sendData(formSubmitSucces, formSubmitError, formData);
+    const config = {
+      method: 'POST',
+      body: formData,
+    };
+    fetchData(formSubmitSucces, formSubmitError, URL_POST, config);
   });
   AD_FORM.addEventListener('reset', (event) => {
     event.preventDefault();

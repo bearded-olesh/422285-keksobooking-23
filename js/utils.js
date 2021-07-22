@@ -1,75 +1,52 @@
-import {AD_FORM, FILTERS_FORM} from './const.js';
+import {AD_FORM, AD_FORM_DISABLE, FILTERS_FORM, FILTERS_FORM_DISABLE} from './const.js';
 import {generateElement} from './generate-element.js';
 
-const getRandomPositiveInteger = (limA, limB) => {
-  const lower = Math.ceil(Math.min(Math.abs(limA), Math.abs(limB))),
-    upper = Math.floor(Math.max(Math.abs(limA), Math.abs(limB))),
-    result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
-const getRandomPositiveFloat = (limA, limB, digits = 1) => {
-  const lower = Math.min(Math.abs(limA), Math.abs(limB)),
-    upper = Math.max(Math.abs(limA), Math.abs(limB)),
-    result = Math.random() * (upper - lower) + lower;
-  return parseFloat(result.toFixed(digits));
-};
-
-const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0,elements.length - 1)];
-
-const shuffle = (data) => {
-  const shuffleData = data.slice();
-  for (let index = shuffleData.length - 1; index > 0; index--) {
-    const newIndex = Math.floor(Math.random() * (index + 1));
-    [shuffleData[index], shuffleData[newIndex]] = [shuffleData[newIndex], shuffleData[index]];
+const disableForm = (form, selector) => {
+  const formElements = AD_FORM.children;
+  form.classList.add(selector);
+  for (let index = 0; index < formElements.length; index++) {
+    formElements[index].disabled = true;
   }
-  return shuffleData;
 };
 
+const enableForm = (form, selector) => {
+  const formElements = form.children;
+  form.classList.remove(selector);
+  for (let index = 0; index < formElements.length; index++) {
+    formElements[index].removeAttribute('disabled');
+  }
+};
 const disablePage = () => {
-  const adFormElements = AD_FORM.children;
-  const filtersFormElements = FILTERS_FORM.children;
-  AD_FORM.classList.add('ad-form--disabled');
-  for (let index = 0; index < adFormElements.length; index++) {
-    adFormElements[index].disabled = true;
-  }
-
-  FILTERS_FORM.classList.add('map__filters--disabled');
-  for (let index = 0; index < filtersFormElements.length; index++) {
-    filtersFormElements[index].disabled = true;
-  }
+  disableForm(AD_FORM, AD_FORM_DISABLE);
+  disableForm(FILTERS_FORM, FILTERS_FORM_DISABLE);
 };
 
 const enableAdForm = () => {
-  const adFormElements = AD_FORM.children;
-  AD_FORM.classList.remove('ad-form--disabled');
-  for (let index = 0; index < adFormElements.length; index++) {
-    adFormElements[index].removeAttribute('disabled');
-  }
+  enableForm(AD_FORM, AD_FORM_DISABLE);
 };
 
 const enablefiltersForm = () => {
-  const filtersFormElements = FILTERS_FORM.children;
-  FILTERS_FORM.classList.remove('map__filters--disabled');
-  for (let index = 0; index < filtersFormElements.length; index++) {
-    filtersFormElements[index].removeAttribute('disabled');
-  }
+  enableForm(FILTERS_FORM, FILTERS_FORM_DISABLE);
 };
 
 const openMessage = (templateSelector) => {
   const template = generateElement(templateSelector);
   document.body.append(template);
   const btn = template.querySelector('.error__button');
-  const onKeyDown = ({target}) => {
-    if (target.code === 'Escape') {
-      onCloseMessage;
-    }
-  };
+
   const onCloseMessage = () => {
     template.remove();
-    document.removeEventListener('keydown', onKeyDown);
   };
+
+  const onKeyDown = (event) => {
+    if (event.key === 'Escape' || event.key === 'Esc') {
+      onCloseMessage();
+      document.removeEventListener('keydown', onKeyDown);
+    }
+  };
+
   document.addEventListener('keydown', onKeyDown);
+
   if (btn) {
     btn.addEventListener('click', onCloseMessage);
   } else {
@@ -87,4 +64,4 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, shuffle, disablePage, enableAdForm, enablefiltersForm, openMessage, debounce};
+export {enableForm, disablePage, enableAdForm, enablefiltersForm, openMessage, debounce};
