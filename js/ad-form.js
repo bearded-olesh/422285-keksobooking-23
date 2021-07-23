@@ -30,13 +30,14 @@ const roomsSelector = {
     defaultIndex: 3,
   },
 };
+const resetBtn = document.querySelector('.ad-form__reset');
 
 const onChangeRoomsNumber = () => {
-  const val = roomNumber.value;
-  roomsSelector[val].statuses.forEach((status, index) => {
+  const value = roomNumber.value;
+  roomsSelector[value].statuses.forEach((status, index) => {
     if (status) {
       capacities[index].style.display = DISPLAY.BLOCK;
-      capacity.selectedIndex = roomsSelector[val].defaultIndex;
+      capacity.selectedIndex = roomsSelector[value].defaultIndex;
     } else {
       capacities[index].style.display = DISPLAY.NONE;
     }
@@ -44,9 +45,9 @@ const onChangeRoomsNumber = () => {
 };
 
 const onChangeMinPrice = () => {
-  const val = MIN_PRICE[type.value];
-  price.setAttribute('min', val);
-  price.setAttribute('placeholder', val);
+  const value = MIN_PRICE[type.value];
+  price.setAttribute('min', value);
+  price.setAttribute('placeholder', value);
 };
 
 const formValidity = () => {
@@ -106,18 +107,19 @@ const formSubmitError = () => {
 };
 
 const formSubmit = () => {
-  AD_FORM.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
+  AD_FORM.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
     const config = {
       method: 'POST',
       body: formData,
     };
     fetchData(formSubmitSucces, formSubmitError, URL_POST, config);
   });
-  AD_FORM.addEventListener('reset', (event) => {
-    event.preventDefault();
-    event.target.reset();
+  resetBtn.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    AD_FORM.reset();
+    onChangeRoomsNumber();
     showData();
     features.forEach((feature) => {
       feature.checked = false;

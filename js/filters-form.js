@@ -38,12 +38,12 @@ const isPriceEqual = (data, priceVal) => {
 };
 const isRoomsEqual = (data, roomsVal) => data.offer.rooms === parseInt(roomsVal, 10) || roomsVal === any;
 const isGuestsEqual = (data, guestsVal) => data.offer.guests === parseInt(guestsVal, 10) || guestsVal === any;
-const isFeaturesEqual = ({offer}, features) => {
+const isFeaturesEqual = ({offer}, checkedFeatures) => {
   const offerFeatures = offer.features || [];
-  features
-    .map((filterFeaturesContainer) => filterFeaturesContainer.value)
+  const filterFeatures = checkedFeatures
+    .map((value) => value.value)
     .filter(Boolean);
-  return features.every((filterFeature) => offerFeatures.includes(filterFeature));
+  return filterFeatures.every((filterFeature) => offerFeatures.includes(filterFeature));
 };
 
 const filterAds = (ads) => {
@@ -52,7 +52,7 @@ const filterAds = (ads) => {
   const price = inputPrice.value;
   const rooms = inputRooms.value;
   const guests = inputGuests.value;
-  const getFeaturesContainers = () => [...document.querySelectorAll('#housing-features input[type="checkbox"]:checked')];
+  const features = [...document.querySelectorAll('#housing-features input[type="checkbox"]:checked')];
 
   ads.forEach((ad) => {
     if (
@@ -60,7 +60,7 @@ const filterAds = (ads) => {
       && isPriceEqual(ad, price)
       && isRoomsEqual(ad, rooms)
       && isGuestsEqual(ad, guests)
-      && isFeaturesEqual(ad, getFeaturesContainers())
+      && isFeaturesEqual(ad, features)
     ) {
       filteredAds.push(ad);
     }

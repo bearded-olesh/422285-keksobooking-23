@@ -38,8 +38,8 @@ const openMessage = (templateSelector) => {
     template.remove();
   };
 
-  const onKeyDown = (event) => {
-    if (event.key === 'Escape' || event.key === 'Esc') {
+  const onKeyDown = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
       onCloseMessage();
       document.removeEventListener('keydown', onKeyDown);
     }
@@ -52,6 +52,7 @@ const openMessage = (templateSelector) => {
     template.addEventListener('click', onCloseMessage);
   } else {
     setTimeout(onCloseMessage, 3000);
+    template.addEventListener('click', onCloseMessage);
   }
 };
 

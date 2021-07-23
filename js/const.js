@@ -28,4 +28,3 @@ export const MIN_PRICE = Object.freeze({
   'hotel': 3000,
 });
 export const MAX_MARKERS = 10;
-
