@@ -1,13 +1,10 @@
 import {FILTERS_FORM} from './const.js';
 import {debounce} from './utils.js';
 
-let onFilterForm = () => {};
 const filtersFormInit = (callback) => {
-  onFilterForm = debounce(callback);
-  FILTERS_FORM.addEventListener('change', onFilterForm);
+  FILTERS_FORM.addEventListener('change', debounce(callback));
 };
 
-const getFeaturesContainers = () => document.querySelectorAll('#housing-features input[type="checkbox"]:checked');
 const inputType = document.querySelector('#housing-type');
 const inputPrice = document.querySelector('#housing-price');
 const inputRooms = document.querySelector('#housing-rooms');
@@ -41,12 +38,12 @@ const isPriceEqual = (data, priceVal) => {
 };
 const isRoomsEqual = (data, roomsVal) => data.offer.rooms === parseInt(roomsVal, 10) || roomsVal === any;
 const isGuestsEqual = (data, guestsVal) => data.offer.guests === parseInt(guestsVal, 10) || guestsVal === any;
-const isFeaturesEqual = ({offer}) => {
+const isFeaturesEqual = ({offer}, features) => {
   const offerFeatures = offer.features || [];
-  const filterFeatures = [...getFeaturesContainers()]
+  features
     .map((filterFeaturesContainer) => filterFeaturesContainer.value)
     .filter(Boolean);
-  return filterFeatures.every((filterFeature) => offerFeatures.includes(filterFeature));
+  return features.every((filterFeature) => offerFeatures.includes(filterFeature));
 };
 
 const filterAds = (ads) => {
@@ -55,6 +52,7 @@ const filterAds = (ads) => {
   const price = inputPrice.value;
   const rooms = inputRooms.value;
   const guests = inputGuests.value;
+  const getFeaturesContainers = () => [...document.querySelectorAll('#housing-features input[type="checkbox"]:checked')];
 
   ads.forEach((ad) => {
     if (
@@ -62,7 +60,7 @@ const filterAds = (ads) => {
       && isPriceEqual(ad, price)
       && isRoomsEqual(ad, rooms)
       && isGuestsEqual(ad, guests)
-      && isFeaturesEqual(ad)
+      && isFeaturesEqual(ad, getFeaturesContainers())
     ) {
       filteredAds.push(ad);
     }
