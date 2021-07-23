@@ -1,10 +1,8 @@
 import {FILTERS_FORM} from './const.js';
 import {debounce} from './utils.js';
 
-let onFilterForm = () => {};
 const filtersFormInit = (callback) => {
-  onFilterForm = debounce(callback);
-  FILTERS_FORM.addEventListener('change', onFilterForm);
+  FILTERS_FORM.addEventListener('change', debounce(callback));
 };
 
 const getFeaturesContainers = () => document.querySelectorAll('#housing-features input[type="checkbox"]:checked');

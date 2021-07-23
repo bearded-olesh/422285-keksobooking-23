@@ -1,10 +1,10 @@
-export const TYPE_CAST = {
+export const TYPE_CAST = Object.freeze({
   'flat': 'Квартира',
   'bungalow': 'Бунгало',
   'house': 'Дом',
   'palace': 'Дворец',
   'hotel': 'Отель',
-};
+});
 export const AD_FORM = document.querySelector('.ad-form');
 export const AD_FORM_DISABLE = 'ad-form--disabled';
 export const FILTERS_FORM = document.querySelector('.map__filters');
@@ -20,12 +20,12 @@ export const ERROR_TEMPLATE = '#error';
 export const START_LAT = 35.68867;
 export const START_LNG = 139.75021;
 export const START_SCALE = 13;
-export const MIN_PRICE = {
+export const MIN_PRICE = Object.freeze({
   'flat': 1000,
   'bungalow': 0,
   'house': 5000,
   'palace': 10000,
   'hotel': 3000,
-};
+});
 export const MAX_MARKERS = 10;
 
