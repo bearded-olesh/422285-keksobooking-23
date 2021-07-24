@@ -3,7 +3,7 @@ import {fillOfferTemplate} from './fill-offer-template.js';
 import {generateElement} from './generate-element.js';
 import {openMessage} from './utils.js';
 import {fetchData} from './api.js';
-import {START_LAT, START_LNG, START_SCALE, URL_GET, COORDS_FRACTION, MAP_TITLE, MAP_COPYRIGHT} from './const.js';
+import {MAP, MAIN_ICON_URL, ICON_URL, START_LAT, START_LNG, START_SCALE, URL_GET, COORDS_FRACTION, MAP_TITLE, MAP_COPYRIGHT} from './const.js';
 import {filterAds} from './filters-form.js';
 
 const templateSelector = '#card';
@@ -16,7 +16,7 @@ let map = {};
 let markerGroup = {};
 let mainPinMarker = {};
 const mapInit = () => {
-  map = L.map('map-canvas')
+  map = L.map(MAP)
     .on('load', () => {
       enableAdForm();
       setAdressCoords(START_LAT, START_LNG);
@@ -34,7 +34,7 @@ const mapInit = () => {
   markerGroup = L.layerGroup().addTo(map);
 
   const mainPinIcon = L.icon({
-    iconUrl: '../img/main-pin.svg',
+    iconUrl: MAIN_ICON_URL,
     iconSize: [52, 52],
     iconAnchor: [0, 0],
   });
@@ -61,7 +61,7 @@ const createMarker = (data) => {
   const lat = data.location.lat;
   const lng = data.location.lng;
   const icon = L.icon({
-    iconUrl: 'img/pin.svg',
+    iconUrl: ICON_URL,
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });

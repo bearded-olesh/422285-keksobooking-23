@@ -34,18 +34,23 @@ const openMessage = (templateSelector) => {
   document.body.append(template);
   const btn = template.querySelector('.error__button');
 
-  const onCloseMessage = () => {
+  const closeMessage = () => {
     template.remove();
   };
 
   const onKeyDown = (event) => {
     if (event.key === ESCAPE || event.key === ESC) {
-      onCloseMessage();
+      closeMessage();
       document.removeEventListener('keydown', onKeyDown);
     }
   };
 
   document.addEventListener('keydown', onKeyDown);
+
+  const onCloseMessage = () => {
+    closeMessage();
+    document.removeEventListener('keydown', onKeyDown);
+  };
 
   if (btn) {
     btn.addEventListener('click', onCloseMessage);

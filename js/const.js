@@ -1,3 +1,10 @@
+export const AVATAR_WIDTH = 40;
+export const AVATAR_HEIGHT = 44;
+export const PHOTO_WIDTH = 70;
+export const PHOTO_HEIGHT = 70;
+export const MAP = 'map-canvas';
+export const MAIN_ICON_URL = '../img/main-pin.svg';
+export const ICON_URL = 'img/pin.svg';
 export const COORDS_FRACTION = 5;
 export const MAP_TITLE = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 export const MAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>';
@@ -35,3 +42,4 @@ export const ESCAPE = 'Escape';
 export const ESC = 'Esc';
 export const CLOSE_MESSAGE_DELAY = 3000;
 export const DEBOUNCE_DELAY = 500;
+export const IMAGE_FILE_TYPES = ['jpg', 'png'];

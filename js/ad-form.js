@@ -1,9 +1,12 @@
-import {DISPLAY, AD_FORM, FILTERS_FORM, SUCCESS_TEMPLATE, ERROR_TEMPLATE, MIN_PRICE, URL_POST} from './const.js';
+import {DISPLAY, AD_FORM, FILTERS_FORM, SUCCESS_TEMPLATE, ERROR_TEMPLATE, MIN_PRICE, URL_POST, IMAGE_FILE_TYPES, AVATAR_WIDTH, AVATAR_HEIGHT, PHOTO_WIDTH, PHOTO_HEIGHT} from './const.js';
 import {openMessage} from './utils.js';
 import {fetchData} from './api.js';
 import {showData} from './map.js';
 import {resetMainPinMarker} from './map.js';
 
+const avatar = AD_FORM.querySelector('#avatar');
+const avatarHolderContainer = AD_FORM.querySelector('.ad-form-header__preview');
+const defaultAvatar = avatarHolderContainer.querySelector('img');
 const title = AD_FORM.querySelector('#title');
 const price = AD_FORM.querySelector('#price');
 const roomNumber = AD_FORM.querySelector('#room_number');
@@ -13,6 +16,8 @@ const capacities = capacity.options;
 const checkIn = AD_FORM.querySelector('#timein');
 const checkOut = AD_FORM.querySelector('#timeout');
 const features = AD_FORM.querySelectorAll('.features__checkbox');
+const photo = AD_FORM.querySelector('#images');
+const photoHolderContainer = AD_FORM.querySelector('.ad-form__photo');
 const roomsSelector = {
   1: {
     statuses: [false, false, true, false],
@@ -50,6 +55,29 @@ const onChangeMinPrice = () => {
   price.setAttribute('min', value);
   price.setAttribute('placeholder', value);
 };
+
+const insertImage = (file, container, sizes) => {
+  const fileName = file.name.toLowerCase();
+
+  const isCorrectType = IMAGE_FILE_TYPES.some((fileType) => fileName.endsWith(fileType));
+
+  if (isCorrectType) {
+    const reader = new FileReader();
+    const image = document.createElement('img');
+    image.width = sizes.width;
+    image.height = sizes.height;
+
+    reader.addEventListener('load', () => {
+      image.src = reader.result;
+      container.replaceChildren(image);
+    });
+
+    reader.readAsDataURL(file);
+  }
+
+  return isCorrectType;
+};
+
 
 const formValidity = () => {
   title.addEventListener('input', () => {
@@ -93,6 +121,30 @@ const formValidity = () => {
     checkIn.value = checkOut.value;
   });
 
+  avatar.addEventListener('change', () => {
+    const fileAvatar = avatar.files[0];
+
+    if (!insertImage(fileAvatar, avatarHolderContainer, {width: AVATAR_WIDTH, height: AVATAR_HEIGHT})) {
+      avatar.setCustomValidity(`Можно загружать только файлы в формате: ${IMAGE_FILE_TYPES.join(', ')}`);
+    } else {
+      avatar.setCustomValidity('');
+    }
+
+    avatar.reportValidity();
+  });
+
+  photo.addEventListener('change', () => {
+    const filePhoto = photo.files[0];
+
+    if (!insertImage(filePhoto, photoHolderContainer, {width: PHOTO_WIDTH, height: PHOTO_HEIGHT})) {
+      photo.setCustomValidity(`Можно загружать только файлы в формате: ${IMAGE_FILE_TYPES.join(', ')}`);
+    } else {
+      photo.setCustomValidity('');
+    }
+
+    photo.reportValidity();
+  });
+
   onChangeMinPrice();
   onChangeRoomsNumber();
 };
@@ -103,6 +155,8 @@ const formSubmitSucces = () => {
   FILTERS_FORM.reset();
   showData();
   resetMainPinMarker();
+  avatarHolderContainer.replaceChildren(defaultAvatar);
+  photoHolderContainer.replaceChildren();
 };
 
 const formSubmitError = () => {
@@ -110,10 +164,12 @@ const formSubmitError = () => {
 };
 
 const formSubmit = () => {
+  let formData;
+  let config;
   AD_FORM.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const formData = new FormData(evt.target);
-    const config = {
+    formData = new FormData(evt.target);
+    config = {
       method: 'POST',
       body: formData,
     };
@@ -126,6 +182,8 @@ const formSubmit = () => {
     onChangeRoomsNumber();
     showData();
     resetMainPinMarker();
+    avatarHolderContainer.replaceChildren(defaultAvatar);
+    photoHolderContainer.replaceChildren();
     features.forEach((feature) => {
       feature.checked = false;
     });

@@ -28,19 +28,36 @@ const fillOfferTemplate = (template, offerData) => {
   insertData(popupTextCapacity, `${offerData.offer.rooms} комнаты для ${offerData.offer.guests} гостей`);
   insertData(popupTextTime,`Заезд после ${offerData.offer.checkin}, выезд до ${offerData.offer.checkout}`);
   insertData(popupDescription, offerData.offer.description);
-  popupFeatures.innerHTML = '';
-  if (features) {
-    features.forEach((feature) => {
-      popupFeatures.insertAdjacentHTML('beforeend', `<li class="popup__feature popup__feature--${feature}"></li>`);
-    });
-  }
+  const AD_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+
+  const setFeatures = () => {
+    const cardFeatures = features || [];
+    const unusedFeatures = AD_FEATURES.filter((feature) => !cardFeatures.includes(feature));
+
+    if (cardFeatures.length) {
+      unusedFeatures.forEach((unusedFeature) => {
+        popupFeatures.querySelector(`[class*="--${unusedFeature}"]`).remove();
+      });
+    } else {
+      popupFeatures.remove();
+    }
+  };
+  setFeatures();
+
   popupPhotos.innerHTML = '';
   if (photos) {
     photos.forEach((photo) => {
       popupPhotos.insertAdjacentHTML('beforeend', `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья"></img>`);
     });
+  } else {
+    popupPhotos.remove();
   }
-  popupAvatar.src = offerData.author.avatar;
+
+  if (offerData.author.avatar) {
+    popupAvatar.src = offerData.author.avatar;
+  } else {
+    popupAvatar.remove();
+  }
 };
 
 export {fillOfferTemplate};
