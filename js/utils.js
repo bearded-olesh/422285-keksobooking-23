@@ -1,20 +1,20 @@
-import {AD_FORM, AD_FORM_DISABLE, FILTERS_FORM, FILTERS_FORM_DISABLE} from './const.js';
+import {AD_FORM, AD_FORM_DISABLE, FILTERS_FORM, FILTERS_FORM_DISABLE, ESCAPE, ESC, CLOSE_MESSAGE_DELAY, DEBOUNCE_DELAY} from './const.js';
 import {generateElement} from './generate-element.js';
 
 const disableForm = (form, selector) => {
-  const formElements = AD_FORM.children;
+  const formElements = [...form.children];
   form.classList.add(selector);
-  for (let index = 0; index < formElements.length; index++) {
-    formElements[index].disabled = true;
-  }
+  formElements.forEach((formElement) => {
+    formElement.disabled = true;
+  });
 };
 
 const enableForm = (form, selector) => {
-  const formElements = form.children;
+  const formElements = [...form.children];
   form.classList.remove(selector);
-  for (let index = 0; index < formElements.length; index++) {
-    formElements[index].removeAttribute('disabled');
-  }
+  formElements.forEach((formElement) => {
+    formElement.disabled = false;
+  });
 };
 const disablePage = () => {
   disableForm(AD_FORM, AD_FORM_DISABLE);
@@ -34,28 +34,34 @@ const openMessage = (templateSelector) => {
   document.body.append(template);
   const btn = template.querySelector('.error__button');
 
-  const onCloseMessage = () => {
+  const closeMessage = () => {
     template.remove();
   };
 
   const onKeyDown = (event) => {
-    if (event.key === 'Escape' || event.key === 'Esc') {
-      onCloseMessage();
+    if (event.key === ESCAPE || event.key === ESC) {
+      closeMessage();
       document.removeEventListener('keydown', onKeyDown);
     }
   };
 
   document.addEventListener('keydown', onKeyDown);
 
+  const onCloseMessage = () => {
+    closeMessage();
+    document.removeEventListener('keydown', onKeyDown);
+  };
+
   if (btn) {
     btn.addEventListener('click', onCloseMessage);
     template.addEventListener('click', onCloseMessage);
   } else {
-    setTimeout(onCloseMessage, 3000);
+    setTimeout(onCloseMessage, CLOSE_MESSAGE_DELAY);
+    template.addEventListener('click', onCloseMessage);
   }
 };
 
-const debounce = (callback, timeoutDelay = 500) => {
+const debounce = (callback, timeoutDelay = DEBOUNCE_DELAY) => {
   let timeoutId;
 
   return () => {

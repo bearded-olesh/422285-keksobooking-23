@@ -3,20 +3,20 @@ import {fillOfferTemplate} from './fill-offer-template.js';
 import {generateElement} from './generate-element.js';
 import {openMessage} from './utils.js';
 import {fetchData} from './api.js';
-import {START_LAT, START_LNG, START_SCALE, MAX_MARKERS, URL_GET} from './const.js';
+import {MAP, MAIN_ICON_URL, ICON_URL, START_LAT, START_LNG, START_SCALE, URL_GET, COORDS_FRACTION, MAP_TITLE, MAP_COPYRIGHT} from './const.js';
 import {filterAds} from './filters-form.js';
 
 const templateSelector = '#card';
 
 const setAdressCoords = (lat, lng) => {
   const address = document.querySelector('#address');
-  address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  address.value = `${lat.toFixed(COORDS_FRACTION)}, ${lng.toFixed(COORDS_FRACTION)}`;
 };
 let map = {};
 let markerGroup = {};
 let mainPinMarker = {};
 const mapInit = () => {
-  map = L.map('map-canvas')
+  map = L.map(MAP)
     .on('load', () => {
       enableAdForm();
       setAdressCoords(START_LAT, START_LNG);
@@ -26,15 +26,15 @@ const mapInit = () => {
       lng: START_LNG,
     }, START_SCALE);
   L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    MAP_TITLE,
     {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>',
+      attribution: MAP_COPYRIGHT,
     },
   ).addTo(map);
   markerGroup = L.layerGroup().addTo(map);
 
   const mainPinIcon = L.icon({
-    iconUrl: '../img/main-pin.svg',
+    iconUrl: MAIN_ICON_URL,
     iconSize: [52, 52],
     iconAnchor: [0, 0],
   });
@@ -61,7 +61,7 @@ const createMarker = (data) => {
   const lat = data.location.lat;
   const lng = data.location.lng;
   const icon = L.icon({
-    iconUrl: 'img/pin.svg',
+    iconUrl: ICON_URL,
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
@@ -85,24 +85,30 @@ const createMarker = (data) => {
     );
   enablefiltersForm();
 };
-const showData = () => {
-  markerGroup.clearLayers();
+
+const resetMainPinMarker = () => {
   mainPinMarker.setLatLng({
     lat: START_LAT,
     lng: START_LNG,
   });
+};
+
+const showData = () => {
+  markerGroup.clearLayers();
+
   setAdressCoords(START_LAT, START_LNG);
   map.setView({
     lat: START_LAT,
     lng: START_LNG,
   }, START_SCALE);
+
   const showMarkers = (data) => {
     filterAds(data.slice())
-      .slice(0, MAX_MARKERS)
       .forEach((offer) => {
         createMarker(offer);
       });
   };
+
   const showError = () => {
     const errorTemplateSelector = '#error-map';
     openMessage(errorTemplateSelector);
@@ -111,4 +117,4 @@ const showData = () => {
   fetchData(showMarkers, showError, URL_GET);
 };
 
-export {mapInit, showData};
+export {mapInit, showData, resetMainPinMarker};
