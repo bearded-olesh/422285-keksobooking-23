@@ -1,3 +1,4 @@
+
 export const AVATAR_WIDTH = 40;
 export const AVATAR_HEIGHT = 44;
 export const PHOTO_WIDTH = 70;

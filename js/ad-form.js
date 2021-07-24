@@ -1,3 +1,4 @@
+
 import {DISPLAY, AD_FORM, FILTERS_FORM, SUCCESS_TEMPLATE, ERROR_TEMPLATE, MIN_PRICE, URL_POST, IMAGE_FILE_TYPES, AVATAR_WIDTH, AVATAR_HEIGHT, PHOTO_WIDTH, PHOTO_HEIGHT} from './const.js';
 import {openMessage} from './utils.js';
 import {fetchData} from './api.js';
@@ -36,6 +37,7 @@ const roomsSelector = {
     defaultIndex: 3,
   },
 };
+
 const resetBtn = document.querySelector('.ad-form__reset');
 
 const onChangeRoomsNumber = () => {
@@ -77,7 +79,6 @@ const insertImage = (file, container, sizes) => {
 
   return isCorrectType;
 };
-
 
 const formValidity = () => {
   title.addEventListener('input', () => {
