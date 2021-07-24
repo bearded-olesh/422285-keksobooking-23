@@ -1,17 +1,18 @@
-import {DISPLAY, AD_FORM, SUCCESS_TEMPLATE, ERROR_TEMPLATE, MIN_PRICE, URL_POST} from './const.js';
+import {DISPLAY, AD_FORM, FILTERS_FORM, SUCCESS_TEMPLATE, ERROR_TEMPLATE, MIN_PRICE, URL_POST} from './const.js';
 import {openMessage} from './utils.js';
 import {fetchData} from './api.js';
 import {showData} from './map.js';
+import {resetMainPinMarker} from './map.js';
 
-const title = document.querySelector('#title');
-const price = document.querySelector('#price');
-const roomNumber = document.querySelector('#room_number');
-const capacity = document.querySelector('#capacity');
-const type = document.querySelector('#type');
+const title = AD_FORM.querySelector('#title');
+const price = AD_FORM.querySelector('#price');
+const roomNumber = AD_FORM.querySelector('#room_number');
+const capacity = AD_FORM.querySelector('#capacity');
+const type = AD_FORM.querySelector('#type');
 const capacities = capacity.options;
-const checkIn = document.querySelector('#timein');
-const checkOut = document.querySelector('#timeout');
-const features = document.querySelectorAll('.features__checkbox');
+const checkIn = AD_FORM.querySelector('#timein');
+const checkOut = AD_FORM.querySelector('#timeout');
+const features = AD_FORM.querySelectorAll('.features__checkbox');
 const roomsSelector = {
   1: {
     statuses: [false, false, true, false],
@@ -99,7 +100,9 @@ const formValidity = () => {
 const formSubmitSucces = () => {
   openMessage(SUCCESS_TEMPLATE);
   AD_FORM.reset();
+  FILTERS_FORM.reset();
   showData();
+  resetMainPinMarker();
 };
 
 const formSubmitError = () => {
@@ -119,8 +122,10 @@ const formSubmit = () => {
   resetBtn.addEventListener('click', (evt) => {
     evt.preventDefault();
     AD_FORM.reset();
+    FILTERS_FORM.reset();
     onChangeRoomsNumber();
     showData();
+    resetMainPinMarker();
     features.forEach((feature) => {
       feature.checked = false;
     });

@@ -1,4 +1,4 @@
-import {FILTERS_FORM} from './const.js';
+import {FILTERS_FORM, MAX_MARKERS} from './const.js';
 import {debounce} from './utils.js';
 
 const filtersFormInit = (callback) => {
@@ -54,7 +54,7 @@ const filterAds = (ads) => {
   const guests = inputGuests.value;
   const features = [...document.querySelectorAll('#housing-features input[type="checkbox"]:checked')];
 
-  ads.forEach((ad) => {
+  for (const ad of ads) {
     if (
       isTypeEqual(ad, type)
       && isPriceEqual(ad, price)
@@ -63,8 +63,12 @@ const filterAds = (ads) => {
       && isFeaturesEqual(ad, features)
     ) {
       filteredAds.push(ad);
+
+      if (filteredAds.length >= MAX_MARKERS) {
+        break;
+      }
     }
-  });
+  }
 
   return filteredAds;
 };
